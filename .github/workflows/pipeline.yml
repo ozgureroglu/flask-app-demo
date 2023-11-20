@@ -7,12 +7,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:$(date +%s)
+
+      - name: Log in to GitHub Container Registry
+        # Log in to the GitHub Container Registry using the GitHub token
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Tag the Docker image for GitHub Container Registry
+        # Tag the previously built image with the ghcr.io repository URL
+        run: docker tag my-image-name:$(date +%s) ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
+
+      - name: Push the Docker image to GitHub Container Registry
+        # Push the tagged image to GitHub Container Registry
+        run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
