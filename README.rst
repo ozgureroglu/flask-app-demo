@@ -1,9 +1,7 @@
-Flaskr
-======
+Flask Application Demo
+=======================
 
-The basic blog app built in the Flask `tutorial`_.
-
-.. _tutorial: https://flask.palletsprojects.com/tutorial/
+Shows a demo application and api example
 
 
 Install
@@ -51,6 +49,9 @@ Run
     $ flask --app flaskr run --debug
 
 Open http://127.0.0.1:5000 in a browser.
+
+Bu uygulama app factory ile olsuturuldugu icin gunicorn ile calistririrken asagidaki gibi calistirilir
+gunicorn --bind 0.0.0.0:5000 wsgi:app
 
 
 Test
