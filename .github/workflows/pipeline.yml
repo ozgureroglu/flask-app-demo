@@ -22,7 +22,7 @@ jobs:
 
       - name: Tag the Docker image for GitHub Container Registry
         # Tag the previously built image with the ghcr.io repository URL
-        run: docker tag my-image-name:$(date +%s) ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
+        run: docker ${{ github.event.repository.name }}:$(date +%s) ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Push the Docker image to GitHub Container Registry
         # Push the tagged image to GitHub Container Registry
