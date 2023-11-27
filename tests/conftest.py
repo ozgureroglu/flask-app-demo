@@ -18,8 +18,12 @@ def app():
     # create a temporary file to isolate the database for each test
     db_fd, db_path = tempfile.mkstemp()
     # create the app with common test config
-    app = create_app({"TESTING": True, "DATABASE": db_path})
+    app = create_app({"TESTING": True, "DATABASE": db_path, "VERSION": "1.0.0"})
+    app.secret_key = "secret"
 
+    # print(db_fd)
+    # print(db_path)
+    
     # create the database and load test data
     with app.app_context():
         init_db()
