@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
-{% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
-{% endblock %}
 
 {% block content %}
+<div class="container w-50 mt-5 border border-primary p-5">
+  <h3>Log In</h3>
+  {% if error %}
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+  {% endif %}
+  
   <form method="post">
-    <label for="username">Username</label>
-    <input name="username" id="username" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" name="username"  class="form-control" id="username" aria-describedby="username">
+      <div id="username" class="form-text">Username not email</div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" id="password">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
     <input type="submit" value="Log In">
   </form>
+</div>
 {% endblock %}
