@@ -13,8 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set the current date and time
+        # Set the current date and time as an environment variable
+        run: echo ::set-env name=TIMESTAMP::$(date +%s)
+
+      - name: Get and print the current date and time
+        # Get the current date and time from the environment variable and print it
+        run: echo $TIMESTAMP 
+
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:$(date +%s)
+        run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:$TIMESTAMP
 
       - name: Log in to GitHub Container Registry
         # Log in to the GitHub Container Registry using the GitHub token
@@ -22,7 +30,7 @@ jobs:
 
       - name: Tag the Docker image for GitHub Container Registry
         # Tag the previously built image with the ghcr.io repository URL
-        run: docker tag ${{ github.event.repository.name }}:$(date +%s) ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
+        run: docker tag ${{ github.event.repository.name }}:$TIMESTAMP ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Push the Docker image to GitHub Container Registry
         # Push the tagged image to GitHub Container Registry
