@@ -67,3 +67,12 @@ Run with coverage report::
     $ coverage run -m pytest
     $ coverage report
     $ coverage html  # open htmlcov/index.html in a browser
+
+
+
+Code Scan
+---------
+This project github actions connected to sonarcloud. Sonarcloud is a code scan tool. 
+It scans the code and gives a report about the code quality.
+Users of an organization needs to subscribe to notifications 
+of an project that is attaced to sonarcloud.
