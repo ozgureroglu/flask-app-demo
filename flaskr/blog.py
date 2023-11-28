@@ -16,7 +16,7 @@ bp = Blueprint("blog", __name__)
 @bp.route("/")
 def index():
     """Show all the posts, most recent first."""
-    version = current_app.config['VERSION']
+    version = app.config['VERSION']
     db = get_db()
     posts = db.execute(
         "SELECT p.id, title, body, created, author_id, username"
@@ -51,9 +51,9 @@ def get_post(id, check_author=True):
 
     if post is None:
         abort(404, f"Post id {id} doesn't exist.")
-    if post is not None:
-        if check_author and post["author_id"] != g.user["id"]:
-            abort(403)
+
+    if check_author and post["author_id"] != g.user["id"]:
+        abort(403)
 
     return post
 
