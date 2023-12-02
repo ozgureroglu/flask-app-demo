@@ -65,4 +65,4 @@ jobs:
         # Push the latest tagged image to GitHub Container Registry
       - name: Push the Docker image to GitHub Container Registry
         # Push the tagged image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$latest
+        run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
