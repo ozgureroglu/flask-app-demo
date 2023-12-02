@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: flask-app-demo
+  namespace: flask-app-demo
+spec:
+  rules:
+    - host: flask-app-demo.jarbank.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: flask-app-demo
+              servicePort: http

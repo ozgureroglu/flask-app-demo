@@ -33,21 +33,31 @@ jobs:
         # Set the current date and time as an environment variable
         run: echo "TIMESTAMP=$(date +%s)" >> "$GITHUB_ENV"
 
+        # Get and print the current date and time
       - name: Get and print the current date and time
         # Get the current date and time from the environment variable and print it
         run: echo $TIMESTAMP 
 
+        # Build the Docker image
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ${{ github.event.repository.name }}:$TIMESTAMP
 
+        # Log in to GitHub Container Registry
       - name: Log in to GitHub Container Registry
         # Log in to the GitHub Container Registry using the GitHub token
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+        # Tag the Docker image for GitHub Container Registry. 
+        # Use the repository name as the image name
+        # Use the current date and time as the image tag
       - name: Tag the Docker image for GitHub Container Registry
         # Tag the previously built image with the ghcr.io repository URL
         run: docker tag ${{ github.event.repository.name }}:$TIMESTAMP ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TIMESTAMP
+       
+      - name: Tag the Docker image for GitHub Container Registry with latest      
+        run: docker tag ${{ github.event.repository.name }}:$TIMESTAMP ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
 
+        # Push the tagged image to GitHub Container Registry
       - name: Push the Docker image to GitHub Container Registry
         # Push the tagged image to GitHub Container Registry
         run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TIMESTAMP

@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-world-job
+  namespace: flask-app-demo
+spec:
+  template:
+    metadata:
+      labels:
+        app: flask-app-demo
+        role: hello-world-job
+    spec:
+      securityContext:
+        runAsGroup: 1000
+        runAsUser: 1000
+      restartPolicy: OnFailure
+      containers:
+        - name: flask-app-demo-hello-world-job
+          image: flask-app-demo:init
+          command:
+            - python3
+          args:
+            - cli.py
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m

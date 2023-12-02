@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-demo
+  namespace: flask-app-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-app-demo
+      role: web
+  template:
+    metadata:
+      labels:
+        app: flask-app-demo
+        role: web
+    spec:
+      securityContext:
+        runAsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: flask-app-demo
+          image: flask-app-demo:latest
+          args:
+            - '--bind'
+            - '0.0.0.0'
+            - 'app:app'
+          ports:
+            - name: gunicorn
+              containerPort: 8000
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              port: gunicorn
+              path: /
+          livenessProbe:
+            initialDelaySeconds: 10
+            exec:
+              command:
+                - /bin/sh
+                - -c 
+                - "pidof -x gunicorn"
