@@ -64,10 +64,13 @@ docker build -t python-app-demo:latest .
 ````
 
 Sonrasinda bu imaji local calistirarak test et. 
+```
+docker run --env-file .env -p 5000:5000 your-image-name
+```
 
 
 Test
-----
+-----
 
 ::
 

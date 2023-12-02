@@ -21,10 +21,15 @@ spec:
       containers:
         - name: flask-app-demo
           image: ghcr.io/ozgureroglu/flask-app-demo:latest
+          imagePullPolicy: Always
+          command: ["gunicorn"]
           args:
             - '--bind'
             - '0.0.0.0'
-            - 'flaskapp:app'
+            - 'wsgi:app'
+          envFrom:
+          - configMapRef:
+              name: flask-config
           ports:
             - name: gunicorn
               containerPort: 8000

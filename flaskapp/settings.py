@@ -1,7 +1,9 @@
-VERSION = "1.0.0"
-# Add other configuration variables here
-        # a default secret that should be overridden by instance config
-SECRET_KEY="dev"
-# store the database in the instance folder
-DATABASE='flaskapp.sqlite'
-TESTING=False   
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+VERSION = os.getenv("VERSION", "1.0.0")
+SECRET_KEY = os.getenv("SECRET_KEY", "dev")
+DATABASE = os.getenv("DATABASE", "flaskapp.sqlite")
+TESTING = os.getenv("TESTING", False)

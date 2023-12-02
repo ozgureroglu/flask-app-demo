@@ -14,9 +14,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Set the environment variables
-ENV FLASK_APP=flaskapp
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5000
+# Commented out as we are getting the values from
+# the .env file
+# ENV FLASK_APP=flaskapp
+# ENV FLASK_RUN_HOST=0.0.0.0
+# ENV FLASK_RUN_PORT=5000
 
 # Expose the Flask application port
 EXPOSE 5000
