@@ -20,11 +20,11 @@ spec:
         runAsUser: 1000
       containers:
         - name: flask-app-demo
-          image: flask-app-demo:latest
+          image: ghcr.io/ozgureroglu/flask-app-demo:latest
           args:
             - '--bind'
             - '0.0.0.0'
-            - 'app:app'
+            - 'flaskapp:app'
           ports:
             - name: gunicorn
               containerPort: 8000
