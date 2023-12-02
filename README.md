@@ -40,8 +40,8 @@ installing Flaskr::
     $ pip install -e .
 
 
-Run
----
+Run Localy
+-----------
 
 .. code-block:: text
 
@@ -54,6 +54,17 @@ Bu uygulama app factory ile olsuturuldugu icin gunicorn ile calistririrken asagi
 ```
 gunicorn --bind 0.0.0.0:5000 wsgi:app
 ```
+
+Run Localy with Docker
+----------------------
+
+Once docker imajini build et ve registry push et.
+```
+docker build -t python-app-demo:latest .
+````
+
+Sonrasinda bu imaji local calistirarak test et. 
+
 
 Test
 ----
