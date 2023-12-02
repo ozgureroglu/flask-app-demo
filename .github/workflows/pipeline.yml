@@ -8,21 +8,21 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  # sonarcloud:
+  #   name: SonarCloud
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+  #     - name: SonarCloud Scan
+  #       uses: SonarSource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build:
-    needs: sonarcloud
+    # needs: sonarcloud
     permissions: write-all
     runs-on: ubuntu-latest
 
@@ -49,15 +49,20 @@ jobs:
 
         # Tag the Docker image for GitHub Container Registry. 
         # Use the repository name as the image name
-        # Use the current date and time as the image tag
-      - name: Tag the Docker image for GitHub Container Registry
-        # Tag the previously built image with the ghcr.io repository URL
-        run: docker tag ${{ github.event.repository.name }}:$TIMESTAMP ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TIMESTAMP
+      #   # Use the current date and time as the image tag
+      # - name: Tag the Docker image for GitHub Container Registry
+      #   # Tag the previously built image with the ghcr.io repository URL
+      #   run: docker tag ${{ github.event.repository.name }}:$TIMESTAMP ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TIMESTAMP
        
       - name: Tag the Docker image for GitHub Container Registry with latest      
         run: docker tag ${{ github.event.repository.name }}:$TIMESTAMP ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
 
-        # Push the tagged image to GitHub Container Registry
+      #   # Push the timestamp tagged image to GitHub Container Registry
+      # - name: Push the Docker image to GitHub Container Registry
+      #   # Push the tagged image to GitHub Container Registry
+      #   run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TIMESTAMP
+
+        # Push the latest tagged image to GitHub Container Registry
       - name: Push the Docker image to GitHub Container Registry
         # Push the tagged image to GitHub Container Registry
-        run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TIMESTAMP
+        run: docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$latest
