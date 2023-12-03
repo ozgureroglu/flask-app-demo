@@ -1,15 +1,22 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: flask-app-demo
   namespace: flask-app-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1   
+    nginx.ingress.kubernetes.io/use-regex: "true"  
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: /$1
 spec:
+  ingressClassName: nginx
   rules:
-    - host: flask-app-demo.jarbank.io
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              serviceName: flask-app-demo
-              servicePort: http
+  - host: k8s.jarbank.io
+    http:
+      paths:
+      - path: /flaskappdemo/
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: flask-app-demo
+            port:
+              number: 80

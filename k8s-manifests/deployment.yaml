@@ -22,20 +22,20 @@ spec:
         - name: flask-app-demo
           image: ghcr.io/ozgureroglu/flask-app-demo:latest
           imagePullPolicy: Always
-          command: ["gunicorn"]
+          # command: ["entyrpoint.sh"]
           volumeMounts:
             - name: sqlite-volume
               mountPath: /app/instance
-          args:
-            - '--bind'
-            - '0.0.0.0'
-            - 'wsgi:app'
+          # args:
+          #   - '--bind'
+          #   - '0.0.0.0'
+          #   - 'wsgi:app'
           envFrom:
           - configMapRef:
               name: flask-config
           ports:
             - name: gunicorn
-              containerPort: 8000
+              containerPort: 5000
           resources:
             requests:
               memory: 128Mi
