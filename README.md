@@ -29,12 +29,12 @@ Or on Windows cmd::
     $ py -3 -m venv .venv
     $ .venv\Scripts\activate.bat
 
-Install Flaskr::
+Install Flaskapp::
 
     $ pip install -e .
 
 Or if you are using the main branch, install Flask from source before
-installing Flaskr::
+installing Flaskapp::
 
     $ pip install -e ../..
     $ pip install -e .
@@ -43,14 +43,14 @@ installing Flaskr::
 Run Localy
 -----------
 
-.. code-block:: text
+Uygulama local olarak asagidaki gibi calistirilabilir. Instance dizini icinde uygulama database(sqlite) uretilecektir.
 
     $ flask --app flaskapp init-db
     $ flask --app flaskapp run --debug
 
 Open http://127.0.0.1:5000 in a browser.
 
-Bu uygulama app factory ile olsuturuldugu icin gunicorn ile calistririrken asagidaki gibi calistirilir
+Bu uygulama app factory ile olusturuldugu icin (app nerede uretiliyor) gunicorn ile calistririrken asagidaki gibi calistirilir
 ```
 gunicorn --bind 0.0.0.0:5000 wsgi:app
 ```
@@ -58,21 +58,23 @@ gunicorn --bind 0.0.0.0:5000 wsgi:app
 Run Localy with Docker
 ----------------------
 
-Once docker imajini build et ve registry push et.
+Once docker imajini build et ve kullanilacak olan registry'e push et. Run komutunda imaj adini kullandigin registry neresi ise ona gore degistir, asagida lokal olarak calisildigi varsayilmistir. 
 ```
 docker build -t python-app-demo:latest .
 ````
 
+Docker build, yerel kod dizinleri icindeki db'yi ignore ettigi icin docker dosyasi yeni bir db instance olusturuacak sekilde olusturulmustur. Ancak bu db ayri bir volume icinde olusturulmadigi zaman container rebootlarinda veriler ve schema degisiklikleri kaybolur. 
+
 Sonrasinda bu imaji local calistirarak test et. 
 ```
-docker run --env-file .env -p 5000:5000 your-image-name
+docker run --env-file .env -v $(pwd)/db:/app/instance -p 5000:5000 python-app-demo:latest
 ```
 
 
 Test
 -----
 
-::
+
 
     $ pip install '.[test]'
     $ pytest
@@ -87,17 +89,16 @@ Run with coverage report::
 
 Code Scan
 ---------
-This project github actions connected to sonarcloud. Sonarcloud is a code scan tool. 
+This project's github actions is connected to sonarcloud. Sonarcloud is a code scanning tool. 
 It scans the code and gives a report about the code quality.
-Users of an organization needs to subscribe to notifications 
+Users of an organization needs to login and subscribe to notifications 
 of an project that is attaced to sonarcloud.
 
 
 
 Helm
 ------
-This application is deployed to kubernetes cluster with helm. The helm package creation
- is done with github actions. The helm package is stored in github repo and served with github pages.
+This application is deployed to kubernetes cluster via helm. The helm package creation is done with github actions. The helm package is stored in github repo and served with github pages.
  This also includes an index.yaml file. This file is for human readable helm repo index.
  Helm package can also be created manually. 
  To create a helm package manually, run the following command in the root directory of the project.

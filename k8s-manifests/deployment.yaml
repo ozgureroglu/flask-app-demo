@@ -23,6 +23,9 @@ spec:
           image: ghcr.io/ozgureroglu/flask-app-demo:latest
           imagePullPolicy: Always
           command: ["gunicorn"]
+          volumeMounts:
+            - name: sqlite-volume
+              mountPath: /app/instance
           args:
             - '--bind'
             - '0.0.0.0'
@@ -52,3 +55,8 @@ spec:
                 - /bin/sh
                 - -c 
                 - "pidof -x gunicorn"
+
+      volumes:
+        - name: sqlite-volume
+          persistentVolumeClaim:
+            claimName: sqlite-pvc-python-app-demo

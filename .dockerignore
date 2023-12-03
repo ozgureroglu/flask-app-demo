@@ -3,3 +3,4 @@ logs/
 .git
 *.md
 .cache
+instance/
