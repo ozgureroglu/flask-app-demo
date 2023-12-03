@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   name: flask-app-demo
   namespace: flask-app-demo
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1   
-    nginx.ingress.kubernetes.io/use-regex: "true"  
-    nginx.ingress.kubernetes.io/x-forwarded-prefix: /$1
+  # annotations:
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1   
+    # nginx.ingress.kubernetes.io/use-regex: "true"  
+    # nginx.ingress.kubernetes.io/x-forwarded-prefix: /$1
 spec:
   ingressClassName: nginx
   rules:
@@ -14,7 +14,7 @@ spec:
     http:
       paths:
       - path: /flaskappdemo/
-        pathType: ImplementationSpecific
+        pathType: Prefix
         backend:
           service:
             name: flask-app-demo

@@ -47,7 +47,7 @@ spec:
             initialDelaySeconds: 10
             httpGet:
               port: gunicorn
-              path: /
+              path: /flaskappdemo/
           livenessProbe:
             initialDelaySeconds: 10
             exec:
