@@ -16,7 +16,7 @@ default Git version is the main branch. ::
     $ cd flask
     # checkout the correct version
     $ git tag  # shows the tagged versions
-    $ git checkout latest-tag-found-above
+    $ git checkout latest-tag-found-abovezzzz
     $ cd examples/tutorial
 
 Create a virtualenv and activate it::
@@ -24,10 +24,6 @@ Create a virtualenv and activate it::
     $ python3 -m venv .venv
     $ . .venv/bin/activate
 
-Or on Windows cmd::
-
-    $ py -3 -m venv .venv
-    $ .venv\Scripts\activate.bat
 
 Install Flaskapp::
 
@@ -40,7 +36,7 @@ installing Flaskapp::
     $ pip install -e .
 
 
-Run Localy
+Run on Local 
 -----------
 
 Uygulama local olarak asagidaki gibi calistirilabilir. Instance dizini icinde uygulama database(sqlite) uretilecektir.
@@ -48,7 +44,10 @@ Uygulama local olarak asagidaki gibi calistirilabilir. Instance dizini icinde uy
     $ flask --app flaskapp init-db
     $ flask --app flaskapp run --debug
 
-Open http://127.0.0.1:5000 in a browser.
+Open http://127.0.0.1:5000 in a browser to see the UI of the application. 
+
+Uygulamanin api arayuzu http://localhost:5000/api/ adresindedir.
+ORN: http://localhost:5000/api/todos
 
 Bu uygulama app factory ile olusturuldugu icin (app nerede uretiliyor) gunicorn ile calistririrken asagidaki gibi calistirilir
 ```

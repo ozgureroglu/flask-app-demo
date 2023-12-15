@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mychart.fullname" . }}-flask-app-demo
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.flaskAppDemo.replicas }}
+  selector:
+    matchLabels:
+      app: flask-app-demo
+      role: web
+    {{- include "mychart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: flask-app-demo
+        role: web
+      {{- include "mychart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "mychart.fullname" . }}-flask-config
+        image: {{ .Values.flaskAppDemo.flaskAppDemo.image.repository }}:{{ .Values.flaskAppDemo.flaskAppDemo.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.flaskAppDemo.flaskAppDemo.imagePullPolicy }}
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - pidof -x gunicorn
+          initialDelaySeconds: 10
+        name: flask-app-demo
+        ports:
+        - containerPort: 5000
+          name: gunicorn
+        readinessProbe:
+          httpGet:
+            path: /flaskappdemo/
+            port: gunicorn
+          initialDelaySeconds: 10
+        resources: {{- toYaml .Values.flaskAppDemo.flaskAppDemo.resources | nindent 10
+          }}
+        volumeMounts:
+        - mountPath: /app/instance
+          name: sqlite-volume
+      securityContext:
+        runAsGroup: 1000
+        runAsUser: 1000
+      volumes:
+      - name: sqlite-volume
+        persistentVolumeClaim:
+          claimName: {{ include "mychart.fullname" . }}-sqlite-pvc-python-app-demo

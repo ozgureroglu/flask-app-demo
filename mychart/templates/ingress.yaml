@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "mychart.fullname" . }}-flask-app-demo
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: k8s.jarbank.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: '{{ include "mychart.fullname" . }}-flask-app-demo'
+            port:
+              number: 80
+        path: /flaskappdemo/
+        pathType: Prefix

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mychart.fullname" . }}-flask-config
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+data:
+  DATABASE: {{ .Values.flaskConfig.database | quote }}
+  FLASK_APP: {{ .Values.flaskConfig.flaskApp | quote }}
+  FLASK_RUN_HOST: {{ .Values.flaskConfig.flaskRunHost | quote }}
+  FLASK_RUN_PORT: {{ .Values.flaskConfig.flaskRunPort | quote }}
+  SCRIPT_NAME: {{ .Values.flaskConfig.scriptName | quote }}
+  SECRET_KEY: {{ .Values.flaskConfig.secretKey | quote }}
+  TESTING: {{ .Values.flaskConfig.testing | quote }}
+  VERSION: {{ .Values.flaskConfig.version | quote }}

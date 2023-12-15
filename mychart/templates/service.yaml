@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mychart.fullname" . }}-flask-app-demo
+  labels:
+  {{- include "mychart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.flaskAppDemo.type }}
+  selector:
+    app: flask-app-demo
+    role: web
+  {{- include "mychart.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.flaskAppDemo.ports | toYaml | nindent 2 -}}

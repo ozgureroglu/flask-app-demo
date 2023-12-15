@@ -1,0 +1,33 @@
+flaskAppDemo:
+  flaskAppDemo:
+    image:
+      repository: ghcr.io/ozgureroglu/flask-app-demo
+      tag: latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  ports:
+  - name: http
+    port: 80
+    targetPort: gunicorn
+  replicas: 2
+  type: ClusterIP
+flaskConfig:
+  database: flaskapp.sqlite
+  flaskApp: flaskapp
+  flaskRunHost: 0.0.0.0
+  flaskRunPort: "5000"
+  scriptName: /flaskappdemo
+  secretKey: deljl4556wsdfsczxa96s4s0mv
+  testing: "False"
+  version: 1.2.0
+kubernetesClusterDomain: cluster.local
+pvc:
+  sqlitePvcPythonAppDemo:
+    storageClass: nfs-client
+    storageRequest: 1Gi
